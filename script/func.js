@@ -1,5 +1,6 @@
 chrome.tabs.onCreated.addListener(function(tab){
 	alert(tab);
+    initDatabase()
 });
 
 
@@ -32,9 +33,28 @@ function createTables(){
             var sqlCommand = 'CREATE TABLE IF NOT EXISTS vigil(id INTEGER NOT NULL PRIMARY KEY, url TEXT NOT NULL, count INTEGER default 0);';
             transaction.executeSql(sqlCommand, [], nullDataHandler, errorHandler);
 
-            sqlCommand = 'CREATE TABLE IF NOT EXISTS vigil_created(id INTEGER NOT NULL PRIMARY KEY, date TEXT NOT NULL);';
+            sqlCommand = 'CREATE TABLE IF NOT EXISTS vigil_created(id INTEGER NOT NULL PRIMARY KEY, date INTEGER NOT NULL);';
             transaction.executeSql(sqlCommand, [], nullDataHandler, errorHandler);
+            console.log("Created Tables.")
         }
     );
     prePopulate();
+}
+
+function prePopulate(){
+    VIGIL.transaction(
+        function (transaction) {
+        var data = [1, new Date.getDate()];
+        transaction.executeSql("INSERT INTO vigil_created(id, date) VALUES (?, ?)", [data[0], data[1]]);
+        }
+    );
+}
+
+function selectAll(){
+    VIGIL.transaction(
+        function (transaction) {
+            transaction.executeSql("SELECT * FROM vigil;", [],
+                dataSelectHandler, errorHandler);
+        }
+    );
 }

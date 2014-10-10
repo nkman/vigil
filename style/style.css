@@ -10,3 +10,20 @@ a{
     width: 500px;
     height: 600px;
 }
+
+.details{
+    height: 30px;
+    width: 500px;
+    font-size: 20px;
+}
+
+#url-name{
+
+}
+
+#url-count{
+    position: relative;
+    bottom: 20px;
+    text-align: right;
+    right: 20px;
+}
