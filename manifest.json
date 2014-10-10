@@ -1,0 +1,15 @@
+{
+    "manifest_version": 2,
+
+    "name": "Vigil",
+    "description": "Count of visited sites.",
+    "version": "1.0",
+
+    "permissions": [
+        "All websites"
+    ],
+    "browser_action": {
+        "default_icon": "icon.png",
+        "default_popup": "popup.html"
+    }
+}
