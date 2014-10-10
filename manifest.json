@@ -6,10 +6,10 @@
     "version": "1.0",
 
     "permissions": [
-        "All websites"
+        "tabs"
     ],
     "browser_action": {
         "default_icon": "icon.png",
-        "default_popup": "popup.html"
+        "default_popup": "main.html"
     }
 }
