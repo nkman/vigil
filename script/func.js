@@ -3,20 +3,8 @@ var version = '1.0';
 var displayName = 'VIGIL Database';
 var maxSize = 100000;
 
-try {
-    if (!window.openDatabase) {
-        alert('Databases are not supported in this browser.');
-    } else {
-        VIGIL = openDatabase(shortName, version, displayName, maxSize);
-        createTables();
-    }
-} catch(e) {
-    if (e == 2) {
-        console.log("Invalid database version.");
-    } else {
-        console.log("Unknown error "+e.toString()+".");
-    }
-}
+VIGIL = openDatabase(shortName, version, displayName, maxSize);
+createTables();
 
 chrome.tabs.onCreated.addListener(function(tab){
 	checkDb(tab.url);
@@ -40,7 +28,7 @@ function prepareDatabase(ready, error) {
 function createTables(){
     VIGIL.transaction(
         function (transaction) {
-            var sqlCommand = 'CREATE TABLE IF NOT EXISTS vigil(id INTEGER NOT NULL PRIMARY KEY, url TEXT NOT NULL, count INTEGER default 0);';
+            var sqlCommand = 'CREATE TABLE IF NOT EXISTS vigil(id INTEGER NOT NULL PRIMARY KEY, url TEXT NOT NULL, count INTEGER);';
             transaction.executeSql(sqlCommand);
 
             sqlCommand = 'CREATE TABLE IF NOT EXISTS vigil_created(id INTEGER NOT NULL PRIMARY KEY, date INTEGER NOT NULL);';
@@ -72,18 +60,19 @@ function selectAll(){
 }
 
 function checkDb(url){
-    query = "SELECT id, count FROM vigil WHERE url = "+url.toString();
+    query = "SELECT * FROM vigil WHERE url = \""+url.toString()+"\"";
     VIGIL.transaction(function(transaction){
         transaction.executeSql(query, [], function(transaction, result){
-            insertInDb(result, url);
+            console.log(result.rows);
+            insertInDb(result.rows, url);
         }, null);
     });
 }
 
 function insertInDb(result, url){
-    if(result.length == 2){
-        id = parseInt(result[0]);
-        count = parseInt(result[1]);
+    if(result.length == 1){
+        id = parseInt(result.item(0).log);
+        count = parseInt(result.item(1).log);
         count++;
         var query = "UPDATE vigil SET count="+count.toString()+" WHERE id="+id.toString();
         VIGIL.transaction(
@@ -93,11 +82,12 @@ function insertInDb(result, url){
         );
     }
     else{
-        var query = "INSERT INTO vigil(id, url, count) VALUES (1,"+url.toString()+", 1)";
+        
+        var query = "INSERT INTO vigil (url, count) VALUES (\""+url.toString()+"\", 1)";
         VIGIL.transaction(function(transaction){
             transaction.executeSql(query);
         });
-    }
+     }
 
-    query = "SELECT * FROM vigil"
+    // query = "SELECT * FROM vigil"
 }
