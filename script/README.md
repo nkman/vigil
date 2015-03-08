@@ -10,7 +10,7 @@ git clone git@github.com:nkman/vigil.git
 follow [this] to install
 
 ###In use
-![VIGIL](https://media.licdn.com/mpr/mpr/shrinknp_200_200/p/8/005/082/314/22732f3.jpg)
+![VIGIL](https://raw.githubusercontent.com/nkman/vigil/master/docs/img.png?token=AFPDaJr0QQDMsGUKydMsmwVkpBiHixeYks5VBbbxwA%3D%3D)
 
 License
 ----
