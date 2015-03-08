@@ -5,6 +5,11 @@
     "description": "Count of visited sites.",
     "version": "1.0",
 
+    "icons": {
+        "16": "icon.png",
+        "128": "bigicon.png"
+    },
+    
     "permissions": [
         "tabs"
     ],
